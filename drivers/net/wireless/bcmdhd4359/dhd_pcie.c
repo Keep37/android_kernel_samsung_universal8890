@@ -2,13 +2,13 @@
  * DHD Bus Module for PCIE
  *
  * Copyright (C) 1999-2016, Broadcom Corporation
- * 
+ *
  *      Unless you and Broadcom execute a separate written software license
  * agreement governing use of this software, this software is licensed to you
  * under the terms of the GNU General Public License version 2 (the "GPL"),
  * available at http://www.broadcom.com/licenses/GPLv2.php, with the
  * following added to such license:
- * 
+ *
  *      As a special exception, the copyright holders of this software give you
  * permission to link this software with independent modules, and to copy and
  * distribute the resulting executable under terms of your choice, provided that
@@ -16,7 +16,7 @@
  * the license of that module.  An independent module is a module which is not
  * derived from this software.  The special exception does not apply to any
  * modifications of the software.
- * 
+ *
  *      Notwithstanding the above, under no circumstances may you combine this
  * software in any way with any other Broadcom software provided under a license
  * other than the GPL, without Broadcom's express prior written consent.
@@ -3928,7 +3928,7 @@ dhdpcie_bus_suspend(struct dhd_bus *bus, bool state)
 		}
 
 		/* Suspend */
-		DHD_ERROR(("%s: Entering suspend state\n", __FUNCTION__));
+		/* DHD_ERROR(("%s: Entering suspend state\n", __FUNCTION__)); */
 		bus->wait_for_d3_ack = 0;
 		bus->suspended = TRUE;
 
@@ -3990,7 +3990,7 @@ dhdpcie_bus_suspend(struct dhd_bus *bus, bool state)
 		}
 
 		if (bus->wait_for_d3_ack) {
-			DHD_ERROR(("%s: Got D3 Ack \n", __FUNCTION__));
+			/* DHD_ERROR(("%s: Got D3 Ack \n", __FUNCTION__)); */
 			/* Got D3 Ack. Suspend the bus */
 			if (active) {
 				DHD_ERROR(("%s():Suspend failed because of wakelock restoring "
@@ -4860,7 +4860,7 @@ dhdpcie_send_mb_data(dhd_bus_t *bus, uint32 h2d_mb_data)
 {
 	uint32 cur_h2d_mb_data = 0;
 
-	DHD_INFO_HW4(("%s: H2D_MB_DATA: 0x%08X\n", __FUNCTION__, h2d_mb_data));
+	/* DHD_INFO_HW4(("%s: H2D_MB_DATA: 0x%08X\n", __FUNCTION__, h2d_mb_data)); */
 
 	if (bus->is_linkdown) {
 		DHD_ERROR(("%s: PCIe link was down\n", __FUNCTION__));
@@ -4888,15 +4888,15 @@ dhdpcie_send_mb_data(dhd_bus_t *bus, uint32 h2d_mb_data)
 	dhd_bus_gen_devmb_intr(bus);
 
 	if (h2d_mb_data == H2D_HOST_D3_INFORM) {
-		DHD_INFO_HW4(("%s: send H2D_HOST_D3_INFORM to dongle\n", __FUNCTION__));
+		/* DHD_INFO_HW4(("%s: send H2D_HOST_D3_INFORM to dongle\n", __FUNCTION__)); */
 		bus->d3_inform_cnt++;
 	}
 	if (h2d_mb_data == H2D_HOST_D0_INFORM_IN_USE) {
-		DHD_INFO_HW4(("%s: send H2D_HOST_D0_INFORM_IN_USE to dongle\n", __FUNCTION__));
+		/* DHD_INFO_HW4(("%s: send H2D_HOST_D0_INFORM_IN_USE to dongle\n", __FUNCTION__)); */
 		bus->d0_inform_in_use_cnt++;
 	}
 	if (h2d_mb_data == H2D_HOST_D0_INFORM) {
-		DHD_INFO_HW4(("%s: send H2D_HOST_D0_INFORM to dongle\n", __FUNCTION__));
+		/* DHD_INFO_HW4(("%s: send H2D_HOST_D0_INFORM to dongle\n", __FUNCTION__)); */
 		bus->d0_inform_cnt++;
 	}
 }
@@ -4915,7 +4915,7 @@ dhdpcie_handle_mb_data(dhd_bus_t *bus)
 
 	dhd_bus_cmn_writeshared(bus, &zero, sizeof(uint32), D2H_MB_DATA, 0);
 
-	DHD_INFO_HW4(("D2H_MB_DATA: 0x%08x\n", d2h_mb_data));
+	/* DHD_INFO_HW4(("D2H_MB_DATA: 0x%08x\n", d2h_mb_data)); */
 	if (d2h_mb_data & D2H_DEV_FWHALT)  {
 		DHD_ERROR(("FW trap has happened\n"));
 		dhdpcie_checkdied(bus, NULL, 0);
@@ -4940,7 +4940,7 @@ dhdpcie_handle_mb_data(dhd_bus_t *bus)
 	}
 	if (d2h_mb_data & D2H_DEV_D3_ACK)  {
 		/* what should we do */
-		DHD_INFO_HW4(("D2H_MB_DATA: D3 ACK\n"));
+		/* DHD_INFO_HW4(("D2H_MB_DATA: D3 ACK\n")); */
 		if (!bus->wait_for_d3_ack) {
 			bus->wait_for_d3_ack = 1;
 			dhd_os_d3ack_wake(bus->dhd);

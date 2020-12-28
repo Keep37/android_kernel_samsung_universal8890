@@ -2,13 +2,13 @@
  * Linux DHD Bus Module for PCIE
  *
  * Copyright (C) 1999-2016, Broadcom Corporation
- * 
+ *
  *      Unless you and Broadcom execute a separate written software license
  * agreement governing use of this software, this software is licensed to you
  * under the terms of the GNU General Public License version 2 (the "GPL"),
  * available at http://www.broadcom.com/licenses/GPLv2.php, with the
  * following added to such license:
- * 
+ *
  *      As a special exception, the copyright holders of this software give you
  * permission to link this software with independent modules, and to copy and
  * distribute the resulting executable under terms of your choice, provided that
@@ -16,7 +16,7 @@
  * the license of that module.  An independent module is a module which is not
  * derived from this software.  The special exception does not apply to any
  * modifications of the software.
- * 
+ *
  *      Notwithstanding the above, under no circumstances may you combine this
  * software in any way with any other Broadcom software provided under a license
  * other than the GPL, without Broadcom's express prior written consent.
@@ -306,7 +306,7 @@ static int dhdpcie_suspend_dev(struct pci_dev *dev)
 		return BCME_ERROR;
 	}
 #endif /* OEM_ANDROID && LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0) */
-	DHD_TRACE_HW4(("%s: Enter\n", __FUNCTION__));
+	/* DHD_TRACE_HW4(("%s: Enter\n", __FUNCTION__)); */
 	disable_irq(dev->irq);
 	dhd_dpc_tasklet_kill(bus->dhd);
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0))
@@ -336,7 +336,7 @@ static int dhdpcie_resume_dev(struct pci_dev *dev)
 	dhd_bus_t *bus = pch->bus;
 	pci_load_and_free_saved_state(dev, &pch->state);
 #endif /* OEM_ANDROID && LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0) */
-	DHD_TRACE_HW4(("%s: Enter\n", __FUNCTION__));
+	/* DHD_TRACE_HW4(("%s: Enter\n", __FUNCTION__)); */
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0))
 	bus->pci_d3hot_done = 0;
 #endif /* OEM_ANDROID && LINUX_VERSION_CODE >= KERNEL_VERSION(3, 0, 0) */
@@ -425,7 +425,7 @@ int dhdpcie_pci_suspend_resume(dhd_bus_t *bus, bool state)
 			bus->dhd->hang_reason = HANG_REASON_PCIE_RC_LINK_UP_FAIL;
 			dhd_os_send_hang_message(bus->dhd);
 		}
-#endif 
+#endif
 	}
 	return rc;
 }
@@ -1447,11 +1447,11 @@ bool dhd_runtimepm_state(dhd_pub_t *dhd)
 			/* stop all interface network queue. */
 			dhd_bus_stop_queue(bus);
 			DHD_GENERAL_UNLOCK(dhd, flags);
-			DHD_ERROR(("%s: DHD Idle state!! -  idletime :%d, wdtick :%d \n",
-					__FUNCTION__, bus->idletime, dhd_runtimepm_ms));
+			/* DHD_ERROR(("%s: DHD Idle state!! -  idletime :%d, wdtick :%d \n",
+					__FUNCTION__, bus->idletime, dhd_runtimepm_ms)); */
 			/* RPM suspend is failed, return FALSE then re-trying */
 			if (dhdpcie_set_suspend_resume(bus->dev, TRUE)) {
-				DHD_ERROR(("%s: exit with wakelock \n", __FUNCTION__));
+				/* DHD_ERROR(("%s: exit with wakelock \n", __FUNCTION__)); */
 				DHD_GENERAL_LOCK(dhd, flags);
 				dhd->dhd_bus_busy_state &= ~DHD_BUS_BUSY_RPM_SUSPEND_IN_PROGRESS;
 				bus->runtime_resume_done = TRUE;
@@ -1489,7 +1489,7 @@ bool dhd_runtimepm_state(dhd_pub_t *dhd)
 
 			smp_wmb();
 			wake_up_interruptible(&bus->rpm_queue);
-			DHD_ERROR(("%s : runtime resume ended\n", __FUNCTION__));
+			/* DHD_ERROR(("%s : runtime resume ended\n", __FUNCTION__)); */
 			return TRUE;
 		} else {
 			DHD_GENERAL_UNLOCK(dhd, flags);
@@ -1530,7 +1530,7 @@ bool dhd_runtime_bus_wake(dhd_bus_t *bus, bool wait, void *func_addr)
 
 			DHD_GENERAL_UNLOCK(bus->dhd, flags);
 
-			DHD_ERROR(("Runtime Resume is called in %pf\n", func_addr));
+			/* DHD_ERROR(("Runtime Resume is called in %pf\n", func_addr)); */
 			smp_wmb();
 			wake_up_interruptible(&bus->rpm_queue);
 		/* No need to wake up the RPM state thread */
